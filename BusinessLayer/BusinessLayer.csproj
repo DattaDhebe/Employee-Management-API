@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EmployeeCommanLayer\CommanLayer.csproj" />
-    <ProjectReference Include="..\EmployeeRepositoryLayer\RepositoryLayer.csproj" />
+    <ProjectReference Include="..\CommanLayer\CommanLayer.csproj" />
+    <ProjectReference Include="..\RepositoryLayer\RepositoryLayer.csproj" />
   </ItemGroup>
 
 </Project>

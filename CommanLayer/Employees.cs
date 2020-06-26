@@ -1,11 +1,10 @@
-﻿using EmployeeRegistration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EmployeeRegistration
+namespace CommanLayer
 {
 	public class Employees
 	{

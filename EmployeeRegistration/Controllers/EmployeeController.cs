@@ -1,52 +1,55 @@
 ﻿using System;
-using EmployeeRegistration;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using BusinessLayer.Interface;
+using CommanLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-namespace EmployeeRegistration.Controllers
+namespace EmpployeeManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        public IConfiguration Configuration { get; }
-        public EmployeeController(IConfiguration configuration)
+        private IConfiguration _config;
+        IEmployeeBL BusinessLayer;
+
+        public EmployeeController(IEmployeeBL BusinessDependencyInjection, IConfiguration config)
         {
-            Configuration = configuration;
+            BusinessLayer = BusinessDependencyInjection;
+            _config = config;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+        /// <summary>
+        ///  API for Registrion
+        /// </summary>
+        /// <param name="Info"> store the Complete Employee information</param>
+        /// <returns></returns>
+        [Route("register")]
         [HttpPost]
-        public IActionResult Create_Post(Employees employees)
+        public async Task<IActionResult> EmployeeRegister([FromBody] Employees Info)
         {
-            if (ModelState.IsValid)
+            try
             {
-                string connectionString = Configuration["ConnectionStrings:DefaultConnection"];
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                bool data = await BusinessLayer.EmployeeRegister(Info);
+                //if data is not equal to null then Registration sucessful
+                if (!data.Equals(null))
                 {
-                    string sql = $"Insert Into Employee (EmployeeName, Salary) Values ('{employees.EmployeeName}','{employees.Salary}')";
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        command.CommandType = CommandType.Text;
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                    return RedirectToAction("Index");
+                    var status = "Success";
+                    var Message = "Registration is Successfull";
+                    return this.Ok(new { status, Message, Info });
+                }
+                else                                
+                {
+                    var status = "UnSuccess";
+                    var Message = "Registration is Failed";
+                    return this.BadRequest(new { status, Message, data = Info });
                 }
             }
-            else
-                return View();
+            catch (Exception e)
+            {
+                return BadRequest(new { error = e.Message });
+            }
         }
     }
 }
