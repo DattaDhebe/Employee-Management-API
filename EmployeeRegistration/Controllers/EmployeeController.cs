@@ -5,7 +5,7 @@ using CommanLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-namespace EmpployeeManagement.Controllers
+namespace EmployeeRegistration.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

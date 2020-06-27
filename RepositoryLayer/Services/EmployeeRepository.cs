@@ -12,9 +12,9 @@ namespace RepositoryLayer
     {
         private readonly IConfiguration configuration;
 
-        public EmployeeRepository(IConfiguration configur)
+        public EmployeeRepository(IConfiguration configure)
         {
-            configuration = configur;
+            configuration = configure;
         }
        
         public async Task<bool> EmployeeRegister(Employees info)
