@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Interface;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -42,6 +43,41 @@ namespace RepositoryLayer
                 {
                     return false;
                 }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        /// <summary>
+        ///  database connection for get all employee details
+        /// </summary>
+        public IEnumerable<Employees> GetAllemployee()
+        {
+            try
+            {
+                List<Employees> employeeList = new List<Employees>();
+                SqlConnection connection = DatabaseConnection();
+                //for store procedure and connection to database 
+                SqlCommand command = StoreProcedureConnection("sp_AllEmployees", connection);
+                connection.Open();
+                //Read data from database
+                SqlDataReader Response = command.ExecuteReader();
+                while (Response.Read())
+                {
+                    Employees employee = new Employees();
+                    employee.Id = Convert.ToInt32(Response["Id"]);
+                    employee.FirstName = Response["FirstName"].ToString();
+                    employee.LastName = Response["LastName"].ToString();
+                    employee.ContactNumber = Response["ContactNumber"].ToString();
+                    employee.City = Response["City"].ToString();
+                    employee.Salary = Response["Salary"].ToString();
+                    employee.JoiningDate = Response["JoiningDate"].ToString();
+                    employeeList.Add(employee);
+                }
+                connection.Close();
+                return employeeList;
             }
             catch (Exception e)
             {

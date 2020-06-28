@@ -28,9 +28,9 @@ namespace CommanLayer
 		public string City { get; set; }
 
 		[Required]
-		public decimal Salary { get; set; }
+		public string Salary { get; set; }
 
 		[Required]
-		public DateTime JoiningDate { get; set; }
+		public string JoiningDate { get; set; }
 	}
 }

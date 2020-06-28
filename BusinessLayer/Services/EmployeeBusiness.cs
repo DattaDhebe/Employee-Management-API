@@ -40,6 +40,21 @@ namespace EmployeeBusinessLayer
             {
                 throw new Exception(e.Message);
             }
-        }               
+        }
+
+        /// <summary>
+        ///  API for get all emplyee details
+        /// </summary>
+        public IEnumerable<Employees> GetAllemployee()
+        {
+            try
+            {
+                return _EmployeeRepository.GetAllemployee();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

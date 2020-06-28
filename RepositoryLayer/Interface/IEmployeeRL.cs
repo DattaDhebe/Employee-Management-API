@@ -1,4 +1,5 @@
 ﻿using CommanLayer;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RepositoryLayer.Interface
@@ -7,5 +8,6 @@ namespace RepositoryLayer.Interface
     {
         //Interface method for Employee Registration
         Task<bool> EmployeeRegister(Employees info);
+        IEnumerable<Employees> GetAllemployee();
     }
 }

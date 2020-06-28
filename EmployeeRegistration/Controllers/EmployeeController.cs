@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BusinessLayer.Interface;
 using CommanLayer;
@@ -24,9 +25,9 @@ namespace EmployeeRegistration.Controllers
         ///  API for Registrion
         /// </summary>
         /// <param name="Info"> store the Complete Employee information</param>
-        /// <returns></returns>
-        [Route("register")]
+        /// <returns></returns>       
         [HttpPost]
+        [Route("add")]
         public async Task<IActionResult> EmployeeRegister([FromBody] Employees Info)
         {
             try
@@ -49,6 +50,36 @@ namespace EmployeeRegistration.Controllers
             catch (Exception e)
             {
                 return BadRequest(new { error = e.Message });
+            }
+        }
+
+        /// <summary>
+        ///  API for get all emplyee details
+        /// </summary>
+        [HttpGet]
+        public ActionResult<IEnumerable<Employees>> GetAllemployee()
+        {
+            try
+            {
+                var result = BusinessLayer.GetAllemployee();
+                //if result is not equal to zero then details found
+                if (!result.Equals(null))
+                {
+                    var Status = "Success";
+                    var Message = "Employee Data found ";
+                    return this.Ok(new { Status, Message, Data = result });
+                }
+                else                                           //Data is not found
+                {
+                    var Status = "Unsuccess";
+                    var Message = "Employee Data is not found";
+                    return this.BadRequest(new { Status, Message, Data = result });
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
     }
