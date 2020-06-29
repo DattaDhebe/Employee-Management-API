@@ -17,15 +17,30 @@ namespace EmployeeBusinessLayer
         }
 
         /// <summary>
+        ///  API for get all emplyee details
+        /// </summary>
+        public IEnumerable<Employees> GetAllemployee()
+        {
+            try
+            {
+                return _EmployeeRepository.GetAllemployee();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        /// <summary>
         ///  API for Registration
         /// </summary>
         /// <param name="info"> store the Complete Employee information</param>
         /// <returns></returns>
-        public async Task<bool> EmployeeRegister(Employees info)
+        public async Task<bool> AddEmployeeDetails(Employees info)
         {
             try
             {
-                var Result = await _EmployeeRepository.EmployeeRegister(info);
+                var Result = await _EmployeeRepository.AddEmployeeDetails(info);
                 //if result is not equal null then return true
                 if (!Result.Equals(null))
                 {
@@ -42,14 +57,25 @@ namespace EmployeeBusinessLayer
             }
         }
 
-        /// <summary>
-        ///  API for get all emplyee details
-        /// </summary>
-        public IEnumerable<Employees> GetAllemployee()
+        public int UpdateEmployeeDetails(int Id, Employees info)
         {
             try
             {
-                return _EmployeeRepository.GetAllemployee();
+                var result = _EmployeeRepository.UpdateEmployeeDetails(Id, info);
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public int DeleteEmployeeDetails(int Id, Employees info)
+        {
+            try
+            {
+                var result = _EmployeeRepository.DeleteEmployeeDetails(Id, info);
+                return result;
             }
             catch (Exception e)
             {

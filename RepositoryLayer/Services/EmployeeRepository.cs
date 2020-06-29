@@ -22,7 +22,43 @@ namespace RepositoryLayer
             connection = new SqlConnection(configuration.GetSection("Data").GetSection("ConnectionString").Value);
         }
 
-        public async Task<bool> EmployeeRegister(Employees info)
+
+        /// <summary>
+        ///  database connection for get all employee details
+        /// </summary>
+        public IEnumerable<Employees> GetAllemployee()
+        {
+            try
+            {
+                List<Employees> employeeList = new List<Employees>();
+                //for store procedure and connection to database 
+                SqlCommand command = StoreProcedureConnection("sp_AllEmployees", connection);
+                connection.Open();
+                //Read data from database
+                SqlDataReader Response = command.ExecuteReader();
+                while (Response.Read())
+                {
+                    Employees employee = new Employees();
+                    employee.Id = Convert.ToInt32(Response["Id"]);
+                    employee.FirstName = Response["FirstName"].ToString();
+                    employee.LastName = Response["LastName"].ToString();
+                    employee.Email = Response["Email"].ToString();
+                    employee.ContactNumber = Response["ContactNumber"].ToString();
+                    employee.City = Response["City"].ToString();
+                    employee.Salary = Response["Salary"].ToString();
+                    employee.JoiningDate = Response["JoiningDate"].ToString();
+                    employeeList.Add(employee);
+                }
+                connection.Close();
+                return employeeList;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public async Task<bool> AddEmployeeDetails(Employees info)
         {
             try
             {            
@@ -53,40 +89,63 @@ namespace RepositoryLayer
             }
         }
 
-        /// <summary>
-        ///  database connection for get all employee details
-        /// </summary>
-        public IEnumerable<Employees> GetAllemployee()
+        public int UpdateEmployeeDetails(int Id, Employees info)
         {
             try
             {
-                List<Employees> employeeList = new List<Employees>();         
                 //for store procedure and connection to database 
-                SqlCommand command = StoreProcedureConnection("sp_AllEmployees", connection);
+                SqlCommand command = StoreProcedureConnection("sp_UpdateEmployeeDetails", connection);
+                command.Parameters.Add("@Id", SqlDbType.Int).Value = Id;
+                command.Parameters.AddWithValue("@FirstName", info.FirstName);
+                command.Parameters.AddWithValue("@LastName", info.LastName);
+                command.Parameters.AddWithValue("@Email", info.Email);
+                command.Parameters.AddWithValue("@ContactNumber", info.ContactNumber);
+                command.Parameters.AddWithValue("@City", info.City);
+                command.Parameters.AddWithValue("@Salary", info.Salary);
+                command.Parameters.AddWithValue("@JoiningDate", info.JoiningDate);
                 connection.Open();
-                //Read data from database
-                SqlDataReader Response = command.ExecuteReader();
-                while (Response.Read())
-                {
-                    Employees employee = new Employees();
-                    employee.Id = Convert.ToInt32(Response["Id"]);
-                    employee.FirstName = Response["FirstName"].ToString();
-                    employee.LastName = Response["LastName"].ToString();
-                    employee.LastName = Response["Email"].ToString();
-                    employee.ContactNumber = Response["ContactNumber"].ToString();
-                    employee.City = Response["City"].ToString();
-                    employee.Salary = Response["Salary"].ToString();
-                    employee.JoiningDate = Response["JoiningDate"].ToString();
-                    employeeList.Add(employee);
-                }
+                int Response = command.ExecuteNonQuery();
                 connection.Close();
-                return employeeList;
+                if (Response == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
         }
+
+        public int DeleteEmployeeDetails(int Id)
+        {
+            try
+            {
+                //for store procedure and connection to database 
+                SqlCommand command = StoreProcedureConnection("sp_DeleteSpecificEmployeeDetails", connection);
+                command.Parameters.Add("@Id", SqlDbType.Int).Value = Id;               
+                connection.Open();
+                int Response = command.ExecuteNonQuery();
+                connection.Close();
+                if (Response == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
 
         public IConfigurationRoot GetConfiguration()
         {

@@ -8,7 +8,12 @@ namespace BusinessLayer.Interface
 {
     public interface IEmployeeBL
     {
-        Task<bool> EmployeeRegister(Employees info);
         IEnumerable<Employees> GetAllemployee();
+
+        Task<bool> AddEmployeeDetails(Employees info);   
+        
+        int UpdateEmployeeDetails(int Id, Employees info);
+
+        int DeleteEmployeeDetails(int Id, Employees info);
     }
 }

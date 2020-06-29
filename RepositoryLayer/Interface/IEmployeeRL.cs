@@ -6,8 +6,13 @@ namespace RepositoryLayer.Interface
 {
     public interface IEmployeeRL
     {
-        //Interface method for Employee Registration
-        Task<bool> EmployeeRegister(Employees info);
         IEnumerable<Employees> GetAllemployee();
+
+        Task<bool> AddEmployeeDetails(Employees info);
+
+        int UpdateEmployeeDetails(int ID, Employees info);
+
+        int DeleteEmployeeDetails(int ID, Employees info);
     }
 }
+

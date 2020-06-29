@@ -61,7 +61,7 @@ namespace EmployeeRegistration.Controllers
         {
             try
             {
-                bool data = await BusinessLayer.EmployeeRegister(Info);
+                bool data = await BusinessLayer.AddEmployeeDetails(Info);
                 //if data is not equal to null then Registration sucessful
                 if (!data.Equals(null))
                 {
@@ -82,5 +82,54 @@ namespace EmployeeRegistration.Controllers
             }
         }
 
+        [HttpPut("{Id}")]
+        public ActionResult UpdateEmployeeDetails([FromRoute] int Id, [FromBody] Employees Info)
+        {
+            try
+            {
+                var response = BusinessLayer.UpdateEmployeeDetails(Id, Info);
+                if (!response.Equals(null))
+                {
+                    var Status = "Success";
+                    var Message = "Employee Data Updated Sucessfully";
+                    return this.Ok(new { Status, Message, data = Info });
+                }
+                else
+                {
+                    var status = "Unsuccess";
+                    var Message = "Employee Data not Updated";
+                    return this.BadRequest(new { status, Message, data = Info });
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { error = e.Message });
+            }
+        }
+
+        [HttpDelete("{Id}")]
+        public ActionResult DeleteEmployeeDetails([FromRoute] int Id, [FromBody] Employees Info)
+        {
+            try
+            {
+                var response = BusinessLayer.UpdateEmployeeDetails(Id, Info);
+                if (!response.Equals(null))
+                {
+                    var Status = "Success";
+                    var Message = "Employee Data Deleted Sucessfully";
+                    return this.Ok(new { Status, Message, data = Info });
+                }
+                else
+                {
+                    var status = "Unsuccess";
+                    var Message = "Employee Data not Deleted";
+                    return this.BadRequest(new { status, Message, data = Info });
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { error = e.Message });
+            }
+        }
     }
 }
