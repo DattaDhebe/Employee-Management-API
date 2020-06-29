@@ -22,6 +22,9 @@ namespace CommanLayer
 		public string LastName { get; set; }
 
 		[Required]
+		public string Email { get; set; }
+
+		[Required]
 		public string ContactNumber { get; set; }
 
 		[Required]

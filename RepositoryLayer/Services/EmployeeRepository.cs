@@ -5,29 +5,32 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Threading.Tasks;
+
 
 namespace RepositoryLayer
 {
     public class EmployeeRepository : IEmployeeRL
     {
-        private readonly IConfiguration configuration;
 
-        public EmployeeRepository(IConfiguration configure)
+        SqlConnection connection;
+
+        public EmployeeRepository()
         {
-            configuration = configure;
+            var configuration = GetConfiguration();
+            connection = new SqlConnection(configuration.GetSection("Data").GetSection("ConnectionString").Value);
         }
-       
+
         public async Task<bool> EmployeeRegister(Employees info)
         {
             try
-            {
-                SqlConnection connection = DatabaseConnection();
-
+            {            
                 //for store procedure and connection to database
-                SqlCommand command = StoreProcedureConnection("sp_EmployeeRegister", connection);
+                SqlCommand command = StoreProcedureConnection("sp_AddNewEmployee", connection);
                 command.Parameters.AddWithValue("@FirstName", info.FirstName);
                 command.Parameters.AddWithValue("@LastName", info.LastName);
+                command.Parameters.AddWithValue("@Email", info.Email);
                 command.Parameters.AddWithValue("@ContactNumber", info.ContactNumber);
                 command.Parameters.AddWithValue("@City", info.City);
                 command.Parameters.AddWithValue("@Salary", info.Salary);
@@ -57,8 +60,7 @@ namespace RepositoryLayer
         {
             try
             {
-                List<Employees> employeeList = new List<Employees>();
-                SqlConnection connection = DatabaseConnection();
+                List<Employees> employeeList = new List<Employees>();         
                 //for store procedure and connection to database 
                 SqlCommand command = StoreProcedureConnection("sp_AllEmployees", connection);
                 connection.Open();
@@ -70,6 +72,7 @@ namespace RepositoryLayer
                     employee.Id = Convert.ToInt32(Response["Id"]);
                     employee.FirstName = Response["FirstName"].ToString();
                     employee.LastName = Response["LastName"].ToString();
+                    employee.LastName = Response["Email"].ToString();
                     employee.ContactNumber = Response["ContactNumber"].ToString();
                     employee.City = Response["City"].ToString();
                     employee.Salary = Response["Salary"].ToString();
@@ -85,12 +88,11 @@ namespace RepositoryLayer
             }
         }
 
-        private SqlConnection DatabaseConnection()
+        public IConfigurationRoot GetConfiguration()
         {
-            string connectionString = configuration.GetSection("ConnectionStrings").GetSection("EmployeeData").Value;
-            return new SqlConnection(connectionString);
-        }
-
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional:true, reloadOnChange:true);
+            return builder.Build();
+        }         
      
         public SqlCommand StoreProcedureConnection(string Procedurename, SqlConnection connection)
         {
