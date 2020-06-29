@@ -10,6 +10,8 @@ namespace BusinessLayer.Interface
     {
         IEnumerable<Employees> GetAllemployee();
 
+        Employees GetSpecificEmployeeDetails(int Id);
+
         Task<bool> AddEmployeeDetails(Employees info);   
         
         int UpdateEmployeeDetails(int Id, Employees info);

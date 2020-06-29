@@ -58,6 +58,37 @@ namespace RepositoryLayer
             }
         }
 
+        public Employees GetSpecificEmployeeDetails(int Id)
+        {
+            try
+            {
+                Employees employee = new Employees();
+                //for store procedure and connection to database 
+                SqlCommand command = StoreProcedureConnection("sp_FindSpecificEmployeeDetails", connection);
+                command.Parameters.Add("@Id", SqlDbType.Int).Value = Id;
+                connection.Open();
+                //Read data from database
+                SqlDataReader Response = command.ExecuteReader();
+                while (Response.Read())
+                {
+                    employee.Id = Convert.ToInt32(Response["ID"]);
+                    employee.FirstName = Response["FirstName"].ToString();
+                    employee.LastName = Response["LastName"].ToString();
+                    employee.Email = Response["Email"].ToString();
+                    employee.ContactNumber = Response["ContactNumber"].ToString();
+                    employee.City = Response["City"].ToString();
+                    employee.Salary = Response["Salary"].ToString();
+                    employee.JoiningDate = Response["JoiningDate"].ToString();
+                }
+                connection.Close();
+                return employee;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public async Task<bool> AddEmployeeDetails(Employees info)
         {
             try

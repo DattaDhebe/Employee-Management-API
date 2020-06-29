@@ -51,6 +51,33 @@ namespace EmployeeRegistration.Controllers
             }
         }
 
+        [HttpGet("{Id}")]
+        public ActionResult GetSpecificEmployeeDetails([FromRoute] int Id)
+        {
+            try
+            {
+                var result = BusinessLayer.GetSpecificEmployeeDetails(Id);
+                //if result is not equal to zero then details found
+                if (!result.Equals(null))
+                {
+                    var Status = "Success";
+                    var Message = "Employee Data found ";
+                    return this.Ok(new { Status, Message, Data = result });
+                }
+                else
+                {
+                    var Status = "Unsuccess";
+                    var Message = "Employee Data is not found";
+                    return this.BadRequest(new { Status, Message, Data = result });
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         /// <summary>
         ///  API for Adding new records
         /// </summary>

@@ -31,6 +31,18 @@ namespace EmployeeBusinessLayer
             }
         }
 
+        public Employees GetSpecificEmployeeDetails(int Id)
+        {
+            try
+            {
+                return _EmployeeRepository.GetSpecificEmployeeDetails(Id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         /// <summary>
         ///  API for Registration
         /// </summary>
