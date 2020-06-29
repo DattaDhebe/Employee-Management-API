@@ -14,6 +14,6 @@ namespace BusinessLayer.Interface
         
         int UpdateEmployeeDetails(int Id, Employees info);
 
-        int DeleteEmployeeDetails(int Id, Employees info);
+        int DeleteEmployeeDetails(int Id);
     }
 }

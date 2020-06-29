@@ -108,22 +108,22 @@ namespace EmployeeRegistration.Controllers
         }
 
         [HttpDelete("{Id}")]
-        public ActionResult DeleteEmployeeDetails([FromRoute] int Id, [FromBody] Employees Info)
+        public ActionResult DeleteEmployeeDetails([FromRoute] int Id)
         {
             try
             {
-                var response = BusinessLayer.UpdateEmployeeDetails(Id, Info);
+                var response = BusinessLayer.DeleteEmployeeDetails(Id);
                 if (!response.Equals(null))
                 {
                     var Status = "Success";
-                    var Message = "Employee Data Deleted Sucessfully";
-                    return this.Ok(new { Status, Message, data = Info });
+                    var Message = "Employee Data Sucessfully Deleted";
+                    return this.Ok(new { Status, Message });
                 }
                 else
                 {
                     var status = "Unsuccess";
-                    var Message = "Employee Data not Deleted";
-                    return this.BadRequest(new { status, Message, data = Info });
+                    var Message = "Employee Data Not Deleted";
+                    return this.BadRequest(new { status, Message });
                 }
             }
             catch (Exception e)

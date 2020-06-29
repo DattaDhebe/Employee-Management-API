@@ -70,11 +70,11 @@ namespace EmployeeBusinessLayer
             }
         }
 
-        public int DeleteEmployeeDetails(int Id, Employees info)
+        public int DeleteEmployeeDetails(int Id)
         {
             try
             {
-                var result = _EmployeeRepository.DeleteEmployeeDetails(Id, info);
+                var result = _EmployeeRepository.DeleteEmployeeDetails(Id);
                 return result;
             }
             catch (Exception e)

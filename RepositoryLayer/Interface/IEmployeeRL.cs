@@ -10,9 +10,9 @@ namespace RepositoryLayer.Interface
 
         Task<bool> AddEmployeeDetails(Employees info);
 
-        int UpdateEmployeeDetails(int ID, Employees info);
+        int UpdateEmployeeDetails(int Id, Employees info);
 
-        int DeleteEmployeeDetails(int ID, Employees info);
+        int DeleteEmployeeDetails(int Id);
     }
 }
 
