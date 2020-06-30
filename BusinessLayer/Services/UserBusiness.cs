@@ -43,19 +43,19 @@ namespace BusinessLayer
             }
         }
 
-        public async Task<bool> UserLogin(UserDetails info)
+        public async Task<int> UserLogin(Login info)
         {
             try
             {
-                var Result = await _UserRepository.UserLogin(info);
+                int Result = await _UserRepository.UserLogin(info);
                 //if result is not equal null then return true
-                if (!Result.Equals(null))
+                if (Result != 0)
                 {
-                    return true;
+                    return 1;
                 }
                 else
                 {
-                    return false;
+                    return 0;
                 }
             }
             catch (Exception e)

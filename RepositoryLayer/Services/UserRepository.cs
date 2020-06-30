@@ -53,24 +53,33 @@ namespace RepositoryLayer
             }
         }
 
-        public async Task<bool> UserLogin(UserDetails info)
+        public async Task<int> UserLogin(Login info)
         {
             try
             {
-                //for store procedure and connection to database
-                SqlCommand command = StoreProcedureConnection("sp_UserRegistration", connection);
-                command.Parameters.AddWithValue("@UserName", info.Username);
+                SqlCommand command = StoreProcedureConnection("sp_CheckUsernameAndPassword", connection);
+                //for store procedure and connection to databat               
+                command.Parameters.AddWithValue("@Username", info.Username);
                 command.Parameters.AddWithValue("@Password", info.Password);
+               
+                ///SqlDataReader dr = command.ExecuteReader();
+                string treatment = null;
                 connection.Open();
-                int Response = await command.ExecuteNonQueryAsync();
-                connection.Close();
-                if (Response != 0)
+                using (SqlDataReader sqlReturnData = command.ExecuteReader())
                 {
-                    return true;
+                    while (sqlReturnData.Read())
+                    {
+                        treatment = sqlReturnData[0].ToString();
+                    }
+                }
+                connection.Close();
+                if (treatment == "1")
+                {
+                    return 1;
                 }
                 else
                 {
-                    return false;
+                    return 0;
                 }
             }
             catch (Exception e)

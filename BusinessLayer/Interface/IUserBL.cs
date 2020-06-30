@@ -9,6 +9,6 @@ namespace BusinessLayer.Interface
     public interface IUserBL
     {
         Task<bool> UserRegister(UserDetails info);
-        Task<bool> UserLogin(UserDetails info);
+        Task<int> UserLogin(Login info);
     }
 }

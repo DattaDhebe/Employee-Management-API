@@ -57,13 +57,13 @@ namespace EmployeeRegistration.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> UserLogin([FromBody] UserDetails info)
+        public async Task<IActionResult> UserLogin([FromBody] Login info)
         {
             try
             {
-                bool data = await BusinessLayer.UserLogin(info);
+                int data = await BusinessLayer.UserLogin(info);
                 //if data is not equal to null then Registration sucessful
-                if (!data.Equals(null))
+                if (data != 0)
                 {
                     var status = "Success";
                     var Message = "You have Successfuly Logged In";
