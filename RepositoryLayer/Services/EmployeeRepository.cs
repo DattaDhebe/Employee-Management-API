@@ -46,7 +46,6 @@ namespace RepositoryLayer
                     employee.ContactNumber = Response["ContactNumber"].ToString();
                     employee.City = Response["City"].ToString();
                     employee.Salary = Response["Salary"].ToString();
-                    employee.JoiningDate = Response["JoiningDate"].ToString();
                     employeeList.Add(employee);
                 }
                 connection.Close();
@@ -77,9 +76,7 @@ namespace RepositoryLayer
                     employee.Email = Response["Email"].ToString();
                     employee.ContactNumber = Response["ContactNumber"].ToString();
                     employee.City = Response["City"].ToString();
-                    employee.Salary = Response["Salary"].ToString();
-                    employee.JoiningDate = Response["JoiningDate"].ToString();
-                }
+                    employee.Salary = Response["Salary"].ToString();                }
                 connection.Close();
                 return employee;
             }
@@ -101,7 +98,7 @@ namespace RepositoryLayer
                 command.Parameters.AddWithValue("@ContactNumber", info.ContactNumber);
                 command.Parameters.AddWithValue("@City", info.City);
                 command.Parameters.AddWithValue("@Salary", info.Salary);
-                command.Parameters.AddWithValue("@JoiningDate", info.JoiningDate);
+                command.Parameters.AddWithValue("@JoiningDate", DateTime.Now);
                 connection.Open();
                 int Response = await command.ExecuteNonQueryAsync();
                 connection.Close();
@@ -133,7 +130,7 @@ namespace RepositoryLayer
                 command.Parameters.AddWithValue("@ContactNumber", info.ContactNumber);
                 command.Parameters.AddWithValue("@City", info.City);
                 command.Parameters.AddWithValue("@Salary", info.Salary);
-                command.Parameters.AddWithValue("@JoiningDate", info.JoiningDate);
+                command.Parameters.AddWithValue("@JoiningDate", DateTime.Now);
                 connection.Open();
                 int Response = command.ExecuteNonQuery();
                 connection.Close();
@@ -176,7 +173,6 @@ namespace RepositoryLayer
                 throw new Exception(e.Message);
             }
         }
-
 
         public IConfigurationRoot GetConfiguration()
         {

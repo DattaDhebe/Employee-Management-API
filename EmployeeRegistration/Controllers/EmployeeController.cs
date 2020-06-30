@@ -40,7 +40,7 @@ namespace EmployeeRegistration.Controllers
                 else                                         
                 {
                     var Status = "Unsuccess";
-                    var Message = "Employee Data is not found";
+                    var Message = "Employee Data is Not found";
                     return this.BadRequest(new { Status, Message, Data = result });
                 }
 
@@ -67,7 +67,7 @@ namespace EmployeeRegistration.Controllers
                 else
                 {
                     var Status = "Unsuccess";
-                    var Message = "Employee Data is not found";
+                    var Message = "Employee Data is Not found";
                     return this.BadRequest(new { Status, Message, Data = result });
                 }
 
@@ -84,7 +84,7 @@ namespace EmployeeRegistration.Controllers
         /// <param name="Info"> stores the Complete Employee information</param>
         /// <returns></returns>       
         [HttpPost]
-        public async Task<IActionResult> EmployeeRegister([FromBody] Employees Info)
+        public async Task<IActionResult> AddEmployeeDetails([FromBody] Employees Info)
         {
             try
             {

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace EmployeeBusinessLayer
+namespace BusinessLayer
 {
     public class EmployeeBusiness : IEmployeeBL
     {

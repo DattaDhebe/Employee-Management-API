@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using EmployeeBusinessLayer;
+using BusinessLayer;
 
 namespace EmployeeRegistration
 {
@@ -28,7 +28,9 @@ namespace EmployeeRegistration
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddTransient<IEmployeeRL, EmployeeRepository>();
-            services.AddTransient<IEmployeeBL, EmployeeBusiness>();                   
+            services.AddTransient<IEmployeeBL, EmployeeBusiness>();
+            services.AddTransient<IUserRL, UserRepository>();
+            services.AddTransient<IUserBL, UserBusiness>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

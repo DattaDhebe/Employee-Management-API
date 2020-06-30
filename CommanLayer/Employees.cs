@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CommanLayer
 {
-	public class Employees
+    public class Employees
 	{
 		public Employees()
 		{
@@ -31,9 +27,6 @@ namespace CommanLayer
 		public string City { get; set; }
 
 		[Required]
-		public string Salary { get; set; }
-
-		[Required]
-		public string JoiningDate { get; set; }
+		public string Salary { get; set; }		
 	}
 }
