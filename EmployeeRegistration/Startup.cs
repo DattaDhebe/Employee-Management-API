@@ -27,10 +27,11 @@ namespace EmployeeRegistration
         {            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddTransient<IEmployeeRL, EmployeeRepository>();
             services.AddTransient<IEmployeeBL, EmployeeBusiness>();
-            services.AddTransient<IUserRL, UserRepository>();
+            services.AddTransient<IEmployeeRL, EmployeeRepository>();
             services.AddTransient<IUserBL, UserBusiness>();
+            services.AddTransient<IUserRL, UserRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

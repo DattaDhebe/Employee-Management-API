@@ -65,13 +65,13 @@ namespace EmployeeRegistration.Controllers
                 //if data is not equal to null then Registration sucessful
                 if (data != 0)
                 {
-                    var status = "Success";
+                    var status = "Login Successfull";
                     var Message = "You have Successfuly Logged In";
                     return this.Ok(new { status, Message, info });
                 }
                 else
                 {
-                    var status = "Failed";
+                    var status = "Login Failed";
                     var Message = "UserName Or Password is Wrong";
                     return this.BadRequest(new { status, Message, data = info });
                 }

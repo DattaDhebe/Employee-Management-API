@@ -10,7 +10,7 @@ namespace BusinessLayer
 {
     public class UserBusiness : IUserBL
     {
-        private IUserRL _UserRepository;
+        private readonly IUserRL _UserRepository;
 
         public UserBusiness(IUserRL UserRepository)
         {

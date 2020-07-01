@@ -1,41 +1,47 @@
-﻿using BusinessLayer.Interface;
-using CommanLayer;
-using RepositoryLayer.Interface;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="EmployeeBusiness.cs" company="BridgeLabz Solution">
+//  Copyright (c) BridgeLabz Solution. All rights reserved.
+// </copyright>
+// <author>Datta Dhebe</author>
+//-----------------------------------------------------------------------
 
 namespace BusinessLayer
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using BusinessLayer.Interface;
+    using CommanLayer;
+    using RepositoryLayer.Interface;
+    
+    /// <summary>
+    /// class for Employee Business
+    /// </summary>
     public class EmployeeBusiness : IEmployeeBL
     {
-        private IEmployeeRL _EmployeeRepository;
+        /// <summary>
+        /// Employee instance of Employee Interface 
+        /// </summary>
+        private IEmployeeRL employeeRepository;
 
-        public EmployeeBusiness(IEmployeeRL EmployeeRepository)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EmployeeBusiness" /> class.
+        /// </summary>
+        /// <param name="employeeRepository">interface instance</param>
+        public EmployeeBusiness(IEmployeeRL employeeRepository)
         {
-            _EmployeeRepository = EmployeeRepository;
+            this.employeeRepository = employeeRepository;
         }
 
         /// <summary>
-        ///  API for get all emplyee details
+        /// Method for returning All Employee Details
         /// </summary>
+        /// <returns>return all employee details</returns>
         public IEnumerable<Employees> GetAllemployee()
         {
             try
             {
-                return _EmployeeRepository.GetAllemployee();
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
-
-        public Employees GetSpecificEmployeeDetails(int Id)
-        {
-            try
-            {
-                return _EmployeeRepository.GetSpecificEmployeeDetails(Id);
+                return this.employeeRepository.GetAllemployee();
             }
             catch (Exception e)
             {
@@ -44,17 +50,35 @@ namespace BusinessLayer
         }
 
         /// <summary>
-        ///  API for Registration
+        /// Method for returning specific Employee Details
         /// </summary>
-        /// <param name="info"> store the Complete Employee information</param>
-        /// <returns></returns>
+        /// <param name="id">for specifying employee</param>
+        /// <returns>return specific employee details</returns>
+        public Employees GetSpecificEmployeeDetails(int id)
+        {
+            try
+            {
+                return this.employeeRepository.GetSpecificEmployeeDetails(id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        /// <summary>
+        ///  Method for adding new Employee
+        /// </summary>
+        /// <param name="info"> stores the Complete Employee information</param>
+        /// <returns>return extra employee details</returns> 
         public async Task<bool> AddEmployeeDetails(Employees info)
         {
             try
             {
-                var Result = await _EmployeeRepository.AddEmployeeDetails(info);
-                //if result is not equal null then return true
-                if (!Result.Equals(null))
+                var result = await this.employeeRepository.AddEmployeeDetails(info);
+
+                // if result is not equal null then return true
+                if (!result.Equals(null))
                 {
                     return true;
                 }
@@ -69,11 +93,17 @@ namespace BusinessLayer
             }
         }
 
-        public int UpdateEmployeeDetails(int Id, Employees info)
+        /// <summary>
+        /// Method for updating previous employee details
+        /// </summary>
+        /// <param name="id">for specifying employee</param>
+        /// <param name="info">for getting updatable details</param>
+        /// <returns>returns updated details</returns>
+        public int UpdateEmployeeDetails(int id, Employees info)
         {
             try
             {
-                var result = _EmployeeRepository.UpdateEmployeeDetails(Id, info);
+                var result = this.employeeRepository.UpdateEmployeeDetails(id, info);
                 return result;
             }
             catch (Exception e)
@@ -82,11 +112,16 @@ namespace BusinessLayer
             }
         }
 
-        public int DeleteEmployeeDetails(int Id)
+        /// <summary>
+        /// Method for Deleting specific Employee Details 
+        /// </summary>
+        /// <param name="id">for specifying employee</param>
+        /// <returns>return deleted record</returns>
+        public int DeleteEmployeeDetails(int id)
         {
             try
             {
-                var result = _EmployeeRepository.DeleteEmployeeDetails(Id);
+                var result = this.employeeRepository.DeleteEmployeeDetails(id);
                 return result;
             }
             catch (Exception e)
