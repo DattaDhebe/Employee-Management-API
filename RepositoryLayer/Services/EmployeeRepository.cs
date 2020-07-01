@@ -55,7 +55,7 @@ namespace RepositoryLayer
                 while (response.Read())
                 {
                     Employees employee = new Employees();
-                    employee.id = Convert.ToInt32(response["Id"]);
+                    employee.Id = Convert.ToInt32(response["Id"]);
                     employee.FirstName = response["FirstName"].ToString();
                     employee.LastName = response["LastName"].ToString();
                     employee.Email = response["Email"].ToString();
@@ -94,7 +94,7 @@ namespace RepositoryLayer
                 SqlDataReader response = command.ExecuteReader();
                 while (response.Read())
                 {
-                    employee.id = Convert.ToInt32(response["ID"]);
+                    employee.Id = Convert.ToInt32(response["ID"]);
                     employee.FirstName = response["FirstName"].ToString();
                     employee.LastName = response["LastName"].ToString();
                     employee.Email = response["Email"].ToString();

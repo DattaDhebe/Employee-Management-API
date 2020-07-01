@@ -16,7 +16,7 @@ namespace EmployeeRegistration.Controllers
     using Microsoft.Extensions.Configuration;
 
     /// <summary>
-    /// Employee controller
+    /// Contoller Class for User
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]

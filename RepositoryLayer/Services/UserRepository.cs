@@ -77,7 +77,7 @@ namespace RepositoryLayer
         /// </summary>
         /// <param name="info">username and password from user</param>
         /// <returns>check if User is Present return result</returns>
-        public async Task<int> UserLogin(Login info)
+        public int UserLogin(Login info)
         {
             try
             {

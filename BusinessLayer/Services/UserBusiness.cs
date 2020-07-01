@@ -1,34 +1,50 @@
-﻿using BusinessLayer.Interface;
-using CommanLayer;
-using RepositoryLayer.Interface;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="UserBusiness.cs" company="BridgeLabz Solution">
+//  Copyright (c) BridgeLabz Solution. All rights reserved.
+// </copyright>
+// <author>Datta Dhebe</author>
+//-----------------------------------------------------------------------
 
 namespace BusinessLayer
 {
+    using System;
+    using System.Threading.Tasks;
+    using BusinessLayer.Interface;
+    using CommanLayer;
+    using RepositoryLayer.Interface;
+
+    /// <summary>
+    /// class for User Business
+    /// </summary>
     public class UserBusiness : IUserBL
     {
-        private readonly IUserRL _UserRepository;
+        /// <summary>
+        /// Employee instance of User Interface 
+        /// </summary>
+        private readonly IUserRL userRepository;
 
-        public UserBusiness(IUserRL UserRepository)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserBusiness" /> class.
+        /// </summary>
+        /// <param name="userRepository">interface instance</param>
+        public UserBusiness(IUserRL userRepository)
         {
-            _UserRepository = UserRepository;
+            this.userRepository = userRepository;
         }
 
         /// <summary>
-        ///  API for Registration
+        /// Method for registering new Users
         /// </summary>
-        /// <param name="info"> store the Complete Employee information</param>
-        /// <returns></returns>
+        /// <param name="info">new data form user</param>
+        /// <returns>added record to the database</returns>
         public async Task<bool> UserRegister(UserDetails info)
         {
             try
             {
-                var Result = await _UserRepository.UserRegister(info);
-                //if result is not equal null then return true
-                if (!Result.Equals(null))
+                var result = await this.userRepository.UserRegister(info);
+
+                // if result is not equal null then return true
+                if (!result.Equals(null))
                 {
                     return true;
                 }
@@ -43,13 +59,19 @@ namespace BusinessLayer
             }
         }
 
+        /// <summary>
+        /// Method for Login User
+        /// </summary>
+        /// <param name="info">username and password from user</param>
+        /// <returns>check if User is Present return result</returns>
         public async Task<int> UserLogin(Login info)
         {
             try
             {
-                int Result = await _UserRepository.UserLogin(info);
-                //if result is not equal null then return true
-                if (Result != 0)
+                int result = await this.userRepository.UserLogin(info);
+
+                // if result is not equal null then return true
+                if (result != 0)
                 {
                     return 1;
                 }

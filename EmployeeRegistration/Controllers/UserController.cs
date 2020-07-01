@@ -1,84 +1,110 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BusinessLayer.Interface;
-using CommanLayer;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+﻿//-----------------------------------------------------------------------
+// <copyright file="UserController.cs" company="BridgeLabz Solution">
+//  Copyright (c) BridgeLabz Solution. All rights reserved.
+// </copyright>
+// <author>Datta Dhebe</author>
+//-----------------------------------------------------------------------
 
 namespace EmployeeRegistration.Controllers
 {
+    using System;
+    using System.Threading.Tasks;
+    using BusinessLayer.Interface;
+    using CommanLayer;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+
+    /// <summary>
+    /// Controller Class for Employee
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IConfiguration _config;
-        IUserBL BusinessLayer;
+        /// <summary>
+        /// for configuration
+        /// </summary>
+        private IConfiguration config;
 
-        public UserController(IUserBL BusinessDependencyInjection, IConfiguration config)
+        /// <summary>
+        /// instance of user interface
+        /// </summary>
+        private IUserBL businessLayer;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserController" /> class.
+        /// </summary>
+        /// <param name="businessDependencyInjection">dependency injection</param>
+        /// <param name="config">for configuration</param>
+        public UserController(IUserBL businessDependencyInjection, IConfiguration config)
         {
-            BusinessLayer = BusinessDependencyInjection;
-            _config = config;
+            this.businessLayer = businessDependencyInjection;
+            this.config = config;
         }
 
         /// <summary>
-        ///  API for Adding new records
+        /// Method for registering new Users
         /// </summary>
-        /// <param name="Info"> stores the Complete Employee information</param>
-        /// <returns></returns> 
+        /// <param name="info">new data form user</param>
+        /// <returns>added record to the database</returns>
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> UserRegister([FromBody] UserDetails info)
         {
             try
             {
-                bool data = await BusinessLayer.UserRegister(info);
-                //if data is not equal to null then Registration sucessful
+                bool data = await this.businessLayer.UserRegister(info);
+
+                // if data is not equal to null then Registration sucessful
                 if (!data.Equals(null))
                 {
                     var status = "Success";
-                    var Message = "Added Successfuly";
-                    return this.Ok(new { status, Message, info });
+                    var message = "Added Successfuly";
+                    return this.Ok(new { status, message, info });
                 }
                 else
                 {
                     var status = "UnSuccess";
-                    var Message = "Adding is Failed";
-                    return this.BadRequest(new { status, Message, data = info });
+                    var message = "Adding is Failed";
+                    return this.BadRequest(new { status, message, data = info });
                 }
             }
             catch (Exception e)
             {
-                return BadRequest(new { error = e.Message });
+                return this.BadRequest(new { error = e.Message });
             }
         }
 
+        /// <summary>
+        /// Method for Login User
+        /// </summary>
+        /// <param name="info">username and password from user</param>
+        /// <returns>check if User is Present return result</returns>
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> UserLogin([FromBody] Login info)
         {
             try
             {
-                int data = await BusinessLayer.UserLogin(info);
-                //if data is not equal to null then Registration sucessful
+                int data = await this.businessLayer.UserLogin(info);
+
+                // if data is not equal to null then Registration sucessful
                 if (data != 0)
                 {
                     var status = "Login Successfull";
-                    var Message = "You have Successfuly Logged In";
-                    return this.Ok(new { status, Message, info });
+                    var message = "You have Successfuly Logged In";
+                    return this.Ok(new { status, message, info });
                 }
                 else
                 {
                     var status = "Login Failed";
-                    var Message = "UserName Or Password is Wrong";
-                    return this.BadRequest(new { status, Message, data = info });
+                    var message = "UserName Or Password is Wrong";
+                    return this.BadRequest(new { status, message, data = info });
                 }
             }
             catch (Exception e)
             {
-                return BadRequest(new { error = e.Message });
+                return this.BadRequest(new { error = e.Message });
             }
         }
     }
