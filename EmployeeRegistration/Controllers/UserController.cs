@@ -53,19 +53,19 @@ namespace EmployeeRegistration.Controllers
         {
             try
             {
-                bool data = await this.businessLayer.UserRegister(info);
+                var response = await this.businessLayer.UserRegister(info);
 
                 // if data is not equal to null then Registration sucessful
-                if (!data.Equals(null))
+                if (!response.Equals(null))
                 {
-                    var status = "Success";
-                    var message = "Added Successfuly";
-                    return this.Ok(new { status, message, info });
+                    var status = true;
+                    var message = "You have Successfuly Registered";
+                    return this.Ok(new { status, message, data = info });
                 }
                 else
                 {
-                    var status = "UnSuccess";
-                    var message = "Adding is Failed";
+                    var status = false;
+                    var message = "You failed to Register";
                     return this.BadRequest(new { status, message, data = info });
                 }
             }
@@ -82,24 +82,24 @@ namespace EmployeeRegistration.Controllers
         /// <returns>check if User is Present return result</returns>
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> UserLogin([FromBody] Login info)
+        public ActionResult UserLogin([FromBody] Login info)
         {
             try
             {
-                int data = await this.businessLayer.UserLogin(info);
+                var response = this.businessLayer.UserLogin(info);
 
                 // if data is not equal to null then Registration sucessful
-                if (data != 0)
+                if (!response.Equals(null))
                 {
-                    var status = "Login Successfull";
+                    var status = true;
                     var message = "You have Successfuly Logged In";
-                    return this.Ok(new { status, message, info });
+                    return this.Ok(new { status, message, data = response });
                 }
                 else
                 {
-                    var status = "Login Failed";
+                    var status = false;
                     var message = "UserName Or Password is Wrong";
-                    return this.BadRequest(new { status, message, data = info });
+                    return this.BadRequest(new { status, message, data = response });
                 }
             }
             catch (Exception e)

@@ -45,15 +45,14 @@ namespace RepositoryLayer
             try
             {
                 // for store procedure and connection to database
-                SqlCommand command = this.StoreProcedureConnection("sp_UserRegistration", this.connection);
-                command.Parameters.AddWithValue("@EmployeeName", info.EmployeeName);
+                SqlCommand command = this.StoreProcedureConnection("sp_UserData", this.connection);
+                command.Parameters.AddWithValue("@Name", info.Name);
                 command.Parameters.AddWithValue("@UserName", info.Username);
                 command.Parameters.AddWithValue("@Password", info.Password);
                 command.Parameters.AddWithValue("@Gender", info.Gender);
                 command.Parameters.AddWithValue("@City", info.City);
                 command.Parameters.AddWithValue("@Email", info.Email);
-                command.Parameters.AddWithValue("@Designation", info.Designation);
-                command.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
+                command.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
                 this.connection.Open();
                 int response = await command.ExecuteNonQueryAsync();
                 this.connection.Close();
@@ -77,34 +76,34 @@ namespace RepositoryLayer
         /// </summary>
         /// <param name="info">username and password from user</param>
         /// <returns>check if User is Present return result</returns>
-        public int UserLogin(Login info)
+        public Login UserLogin(Login info)
         {
             try
             {
+                Login userDetails = new Login();
                 SqlCommand command = this.StoreProcedureConnection("sp_CheckUsernameAndPassword", this.connection);
 
                 // for store procedure and connection to databat               
                 command.Parameters.AddWithValue("@Username", info.Username);
                 command.Parameters.AddWithValue("@Password", info.Password);
-                string returnedQueryValue = null;
                 this.connection.Open();
-                using (SqlDataReader sqlReturnData = command.ExecuteReader())
+
+                // Read data from database
+                SqlDataReader response = command.ExecuteReader();
+                while (response.Read())
                 {
-                    while (sqlReturnData.Read())
-                    {
-                        returnedQueryValue = sqlReturnData[0].ToString();
-                    }
+                    userDetails.Id = Convert.ToInt32(response["Id"]);
+                    userDetails.Name = response["Name"].ToString();
+                    userDetails.Username = response["Username"].ToString();
+                    userDetails.Gender = response["Gender"].ToString();
+                    userDetails.City = response["City"].ToString();
+                    userDetails.Email = response["Email"].ToString();
+                    userDetails.CreatedDate = response["CreatedDate"].ToString();
                 }
 
                 this.connection.Close();
-                if (returnedQueryValue == "1")
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+                return userDetails;
+       
             }
             catch (Exception e)
             {

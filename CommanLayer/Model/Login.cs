@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="UserDetails.cs" company="BridgeLabz Solution">
+// <copyright file="Login.cs" company="BridgeLabz Solution">
 //  Copyright (c) BridgeLabz Solution. All rights reserved.
 // </copyright>
 // <author>Datta Dhebe</author>
@@ -10,16 +10,19 @@ namespace CommanLayer
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-	/// User POCO class for accessing data
+    /// class for user login
     /// </summary>
-    public class UserDetails
+    public class Login
     {
+        /// <summary>
+        /// Gets or sets of variable for user id field
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>
         ///  Gets or sets variable for Employee Name
         /// </summary>
-        [Required(ErrorMessage = "Employee Name Is Required")]
-        [RegularExpression("^[A-Z][a-zA-Z]{3,15}$", ErrorMessage = "Employee Name is not valid")]
-        public string EmployeeName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets variable for User Username
@@ -37,7 +40,6 @@ namespace CommanLayer
         /// <summary>
         ///  Gets or sets variable for Gender
         /// </summary>
-        [Required(ErrorMessage = "Gender Is Required")]
         public string Gender { get; set; }
 
         /// <summary>
@@ -48,13 +50,16 @@ namespace CommanLayer
         /// <summary>
         ///  Gets or sets variable for Email
         /// </summary>
-        [Required(ErrorMessage = "EmailID Is Required")]
-        [RegularExpression("^[a-zA-Z0-9]{1,}([.]?[-]?[+]?[a-zA-Z0-9]{1,})?[@]{1}[a-zA-Z0-9]{1,}[.]{1}[a-z]{2,3}([.]?[a-z]{2})?$", ErrorMessage = "E-mail is not valid")]
         public string Email { get; set; }
 
         /// <summary>
         ///  Gets or sets variable for Designation
         /// </summary>
-        public string Designation { get; set; }
+        public string ModifiedDate { get; set; }
+
+        /// <summary>
+        ///  Gets or sets variable for Designation
+        /// </summary>
+        public string CreatedDate { get; set; }
     }
 }

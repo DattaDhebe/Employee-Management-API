@@ -75,17 +75,7 @@ namespace BusinessLayer
         {
             try
             {
-                var result = await this.employeeRepository.AddEmployeeDetails(info);
-
-                // if result is not equal null then return true
-                if (!result.Equals(null))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return await this.employeeRepository.AddEmployeeDetails(info);
             }
             catch (Exception e)
             {
@@ -103,8 +93,7 @@ namespace BusinessLayer
         {
             try
             {
-                var result = this.employeeRepository.UpdateEmployeeDetails(id, info);
-                return result;
+                return this.employeeRepository.UpdateEmployeeDetails(id, info);
             }
             catch (Exception e)
             {
@@ -121,8 +110,7 @@ namespace BusinessLayer
         {
             try
             {
-                var result = this.employeeRepository.DeleteEmployeeDetails(id);
-                return result;
+                return this.employeeRepository.DeleteEmployeeDetails(id);
             }
             catch (Exception e)
             {

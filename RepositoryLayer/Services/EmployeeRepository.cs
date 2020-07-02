@@ -62,6 +62,8 @@ namespace RepositoryLayer
                     employee.ContactNumber = response["ContactNumber"].ToString();
                     employee.City = response["City"].ToString();
                     employee.Salary = response["Salary"].ToString();
+                    employee.CreatedDate = response["CreatedDate"].ToString();
+                    employee.ModifiedDate = response["ModifiedDate"].ToString();
                     employeeList.Add(employee);
                 }
 
@@ -101,6 +103,8 @@ namespace RepositoryLayer
                     employee.ContactNumber = response["ContactNumber"].ToString();
                     employee.City = response["City"].ToString();
                     employee.Salary = response["Salary"].ToString();
+                    employee.CreatedDate = response["CreatedDate"].ToString();
+                    employee.ModifiedDate = response["ModifiedDate"].ToString();
                 }
 
                 this.connection.Close();
@@ -129,7 +133,7 @@ namespace RepositoryLayer
                 command.Parameters.AddWithValue("@ContactNumber", info.ContactNumber);
                 command.Parameters.AddWithValue("@City", info.City);
                 command.Parameters.AddWithValue("@Salary", info.Salary);
-                command.Parameters.AddWithValue("@JoiningDate", DateTime.Now);
+                command.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
                 this.connection.Open();
                 int response = await command.ExecuteNonQueryAsync();
                 this.connection.Close();
@@ -167,17 +171,17 @@ namespace RepositoryLayer
                 command.Parameters.AddWithValue("@ContactNumber", info.ContactNumber);
                 command.Parameters.AddWithValue("@City", info.City);
                 command.Parameters.AddWithValue("@Salary", info.Salary);
-                command.Parameters.AddWithValue("@JoiningDate", DateTime.Now);
+                command.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
                 this.connection.Open();
                 int response = command.ExecuteNonQuery();
                 this.connection.Close();
-                if (response == 0)
+                if (response != 0)
                 {
-                    return 0;
+                    return 1;
                 }
                 else
                 {
-                    return 1;
+                    return 0;
                 }
             }
             catch (Exception e)
@@ -201,13 +205,13 @@ namespace RepositoryLayer
                 this.connection.Open();
                 int response = command.ExecuteNonQuery();
                 this.connection.Close();
-                if (response == 0)
+                if (response != 0)
                 {
-                    return 0;
+                    return 1;
                 }
                 else
                 {
-                    return 1;
+                    return 0;
                 }
             }
             catch (Exception e)
@@ -229,12 +233,12 @@ namespace RepositoryLayer
         /// <summary>
         /// Method for store procedure and connection
         /// </summary>
-        /// <param name="procedurename">for store procedure</param>
+        /// <param name="procedureName">for store procedure</param>
         /// <param name="connection">for connection</param>
         /// <returns>returns store procedure result</returns>
-        public SqlCommand StoreProcedureConnection(string procedurename, SqlConnection connection)
+        public SqlCommand StoreProcedureConnection(string procedureName, SqlConnection connection)
         {
-            using (SqlCommand command = new SqlCommand(procedurename, connection))
+            using (SqlCommand command = new SqlCommand(procedureName, connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 return command;

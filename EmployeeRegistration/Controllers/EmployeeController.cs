@@ -23,11 +23,6 @@ namespace EmployeeRegistration.Controllers
     public class EmployeeController : ControllerBase
     {
         /// <summary>
-        /// for configuration
-        /// </summary>
-        private readonly IConfiguration config;
-
-        /// <summary>
         /// instance of employee interface
         /// </summary>
         private IEmployeeBL businessLayer;
@@ -36,11 +31,9 @@ namespace EmployeeRegistration.Controllers
         /// Initializes a new instance of the <see cref="EmployeeController" /> class.
         /// </summary>
         /// <param name="businessDependencyInjection">dependency injection</param>
-        /// <param name="config">for configuration</param>
-        public EmployeeController(IEmployeeBL businessDependencyInjection, IConfiguration config)
+        public EmployeeController(IEmployeeBL businessDependencyInjection)
         {
             this.businessLayer = businessDependencyInjection;
-            this.config = config;
         }
 
         /// <summary>
@@ -52,20 +45,20 @@ namespace EmployeeRegistration.Controllers
         {
             try
             {
-                var result = this.businessLayer.GetAllemployee();
+                var response = this.businessLayer.GetAllemployee();
 
                 // if result is not equal to zero then details found
-                if (!result.Equals(null))
+                if (!response.Equals(null))
                 {
-                    string status = "Success";
+                    var status = true;
                     string message = "Employee Data found ";
-                    return this.Ok(new { status, message, Data = result });
+                    return this.Ok(new { status, message, Data = response });
                 }
                 else                                         
                 {
-                    string status = "Unsuccess";
+                    var status = false;
                     string message = "Employee Data is Not found";
-                    return this.BadRequest(new { status, message, Data = result });
+                    return this.BadRequest(new { status, message, Data = response });
                 }
             }
             catch (Exception e)
@@ -84,20 +77,20 @@ namespace EmployeeRegistration.Controllers
         {
             try
             {
-                var result = this.businessLayer.GetSpecificEmployeeDetails(id);
+                var response = this.businessLayer.GetSpecificEmployeeDetails(id);
 
                 // if result is not equal to zero then details found
-                if (!result.Equals(null))
+                if (!response.Equals(null))
                 {
-                    string status = "Success";
+                    var status = true;
                     string message = "Employee Data found ";
-                    return this.Ok(new { status, message, Data = result });
+                    return this.Ok(new { status, message, Data = response });
                 }
                 else
                 {
-                    string status = "Unsuccess";
+                    var status = false;
                     string message = "Employee Data is Not found";
-                    return this.BadRequest(new { status, message, Data = result });
+                    return this.BadRequest(new { status, message, Data = response });
                 }
             }
             catch (Exception e)
@@ -116,18 +109,18 @@ namespace EmployeeRegistration.Controllers
         {
             try
             {
-                bool data = await this.businessLayer.AddEmployeeDetails(info);
+                var response = await this.businessLayer.AddEmployeeDetails(info);
 
                 // if data is not equal to null then Registration sucessful
-                if (!data.Equals(null))
+                if (!response.Equals(null))
                 {
-                    string status = "Success";
+                    var status = true;
                     string message = "Added Successfuly";
-                    return this.Ok(new { status, message, info });
+                    return this.Ok(new { status, message, data = info });
                 }
                 else
                 {
-                    string status = "UnSuccess";
+                    var status = false;
                     string message = "Adding is Failed";
                     return this.BadRequest(new { status, message, data = info });
                 }
@@ -152,13 +145,13 @@ namespace EmployeeRegistration.Controllers
                 var response = this.businessLayer.UpdateEmployeeDetails(id, info);
                 if (!response.Equals(null))
                 {
-                    string status = "Success";
+                    var status = true;
                     string message = "Employee Data Updated Sucessfully";
                     return this.Ok(new { status, message, data = info });
                 }
                 else
                 {
-                    string status = "Unsuccess";
+                    var status = false;
                     string message = "Employee Data not Updated";
                     return this.BadRequest(new { status, message, data = info });
                 }
@@ -182,13 +175,13 @@ namespace EmployeeRegistration.Controllers
                 var response = this.businessLayer.DeleteEmployeeDetails(id);
                 if (!response.Equals(null))
                 {
-                    string status = "Success";
+                    var status = true;
                     string message = "Employee Data Sucessfully Deleted";
                     return this.Ok(new { status, message });
                 }
                 else
                 {
-                    string status = "Unsuccess";
+                    var status = false;
                     string message = "Employee Data Not Deleted";
                     return this.BadRequest(new { status, message });
                 }

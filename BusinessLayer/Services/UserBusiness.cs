@@ -21,7 +21,7 @@ namespace BusinessLayer
         /// <summary>
         /// Employee instance of User Interface 
         /// </summary>
-        private readonly IUserRL userRepository;
+        private IUserRL userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserBusiness" /> class.
@@ -41,17 +41,7 @@ namespace BusinessLayer
         {
             try
             {
-                var result = await this.userRepository.UserRegister(info);
-
-                // if result is not equal null then return true
-                if (!result.Equals(null))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return await this.userRepository.UserRegister(info);
             }
             catch (Exception e)
             {
@@ -64,21 +54,11 @@ namespace BusinessLayer
         /// </summary>
         /// <param name="info">username and password from user</param>
         /// <returns>check if User is Present return result</returns>
-        public async Task<int> UserLogin(Login info)
+        public Login UserLogin(Login info)
         {
             try
             {
-                int result = await this.userRepository.UserLogin(info);
-
-                // if result is not equal null then return true
-                if (result != 0)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+                return this.userRepository.UserLogin(info);               
             }
             catch (Exception e)
             {

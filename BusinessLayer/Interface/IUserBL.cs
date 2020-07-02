@@ -27,6 +27,6 @@ namespace BusinessLayer.Interface
         /// </summary>
         /// <param name="info">username and password from user</param>
         /// <returns>check if User is Present return result</returns>
-        Task<int> UserLogin(Login info);
+        Login UserLogin(Login info);
     }
 }
