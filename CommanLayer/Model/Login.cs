@@ -22,7 +22,17 @@ namespace CommanLayer
         /// <summary>
         ///  Gets or sets variable for Employee Name
         /// </summary>
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+
+        /// <summary>
+        ///  Gets or sets variable for Employee Name
+        /// </summary>
+        public string LastName { get; set; }
+
+        /// <summary>
+        ///  Gets or sets variable for Email
+        /// </summary>
+        public string Email { get; set; }
 
         /// <summary>
         /// Gets or sets variable for User Username
@@ -46,11 +56,6 @@ namespace CommanLayer
         ///  Gets or sets variable for City
         /// </summary>
         public string City { get; set; }
-
-        /// <summary>
-        ///  Gets or sets variable for Email
-        /// </summary>
-        public string Email { get; set; }
 
         /// <summary>
         ///  Gets or sets variable for Designation

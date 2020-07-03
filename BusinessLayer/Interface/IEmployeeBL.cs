@@ -27,7 +27,7 @@ namespace BusinessLayer.Interface
         /// </summary>
         /// <param name="id">for specifying employee</param>
         /// <returns>return specific employee details</returns>
-        Employees GetSpecificEmployeeDetails(int id);
+        Employees GetEmployeeById(int id);
 
         /// <summary>
         ///  Method for adding new Employee

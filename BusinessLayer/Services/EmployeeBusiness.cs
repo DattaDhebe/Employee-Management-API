@@ -54,11 +54,11 @@ namespace BusinessLayer
         /// </summary>
         /// <param name="id">for specifying employee</param>
         /// <returns>return specific employee details</returns>
-        public Employees GetSpecificEmployeeDetails(int id)
+        public Employees GetEmployeeById(int id)
         {
             try
             {
-                return this.employeeRepository.GetSpecificEmployeeDetails(id);
+                return this.employeeRepository.GetEmployeeById(id);
             }
             catch (Exception e)
             {

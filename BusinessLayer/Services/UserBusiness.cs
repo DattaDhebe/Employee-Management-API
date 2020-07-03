@@ -37,11 +37,11 @@ namespace BusinessLayer
         /// </summary>
         /// <param name="info">new data form user</param>
         /// <returns>added record to the database</returns>
-        public async Task<bool> UserRegister(UserDetails info)
+        public UserDetails UserRegister(UserDetails info)
         {
             try
             {
-                return await this.userRepository.UserRegister(info);
+                return this.userRepository.UserRegister(info);
             }
             catch (Exception e)
             {
@@ -54,7 +54,7 @@ namespace BusinessLayer
         /// </summary>
         /// <param name="info">username and password from user</param>
         /// <returns>check if User is Present return result</returns>
-        public Login UserLogin(Login info)
+        public UserDetails UserLogin(Login info)
         {
             try
             {

@@ -81,7 +81,7 @@ namespace RepositoryLayer
         /// </summary>
         /// <param name="id">for specifying employee</param>
         /// <returns>return specific employee details</returns>
-        public Employees GetSpecificEmployeeDetails(int id)
+        public Employees GetEmployeeById(int id)
         {
             try
             {

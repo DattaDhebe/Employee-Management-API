@@ -24,8 +24,22 @@ namespace CommanLayer
         ///  Gets or sets variable for user Name
         /// </summary>
         [Required(ErrorMessage = "Name Is Required")]
-        [RegularExpression("^[A-Z][a-zA-Z]{3,15}$", ErrorMessage = "Employee Name is not valid")]
-        public string Name { get; set; }
+        [RegularExpression("^[A-Z][a-zA-Z]{3,15}$", ErrorMessage = "first Name is not valid")]
+        public string FirstName { get; set; }
+
+        /// <summary>
+        ///  Gets or sets variable for user Name
+        /// </summary>
+        [Required(ErrorMessage = "Name Is Required")]
+        [RegularExpression("^[A-Z][a-zA-Z]{3,15}$", ErrorMessage = "last Name is not valid")]
+        public string LastName { get; set; }
+
+        /// <summary>
+        ///  Gets or sets variable for Email
+        /// </summary>
+        [Required(ErrorMessage = "EmailID Is Required")]
+        [RegularExpression("^[a-zA-Z0-9]{1,}([.]?[-]?[+]?[a-zA-Z0-9]{1,})?[@]{1}[a-zA-Z0-9]{1,}[.]{1}[a-z]{2,3}([.]?[a-z]{2})?$", ErrorMessage = "E-mail is not valid")]
+        public string Email { get; set; }
 
         /// <summary>
         /// Gets or sets variable for User Username
@@ -37,7 +51,7 @@ namespace CommanLayer
         ///  Gets or sets variable for User Password
         /// </summary>
         [Required(ErrorMessage = "Password Is Required")]
-        [RegularExpression("^.{8,15}$", ErrorMessage = "Password Length should be between 8 to 15")]
+        [RegularExpression("^.{3,15}$", ErrorMessage = "Password Length should be between 3 to 15")]
         public string Password { get; set; }
 
         /// <summary>
@@ -50,13 +64,6 @@ namespace CommanLayer
         ///  Gets or sets variable for City
         /// </summary>
         public string City { get; set; }
-
-        /// <summary>
-        ///  Gets or sets variable for Email
-        /// </summary>
-        [Required(ErrorMessage = "EmailID Is Required")]
-        [RegularExpression("^[a-zA-Z0-9]{1,}([.]?[-]?[+]?[a-zA-Z0-9]{1,})?[@]{1}[a-zA-Z0-9]{1,}[.]{1}[a-z]{2,3}([.]?[a-z]{2})?$", ErrorMessage = "E-mail is not valid")]
-        public string Email { get; set; }
 
         /// <summary>
         ///  Gets or sets variable for Designation

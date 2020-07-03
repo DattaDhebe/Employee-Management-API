@@ -41,6 +41,7 @@ namespace EmployeeRegistration.Controllers
         /// </summary>
         /// <returns>return all employee details</returns>
         [HttpGet]
+        [Route("")]
         public ActionResult<IEnumerable<Employees>> GetAllemployee()
         {
             try
@@ -50,20 +51,21 @@ namespace EmployeeRegistration.Controllers
                 // if result is not equal to zero then details found
                 if (!response.Equals(null))
                 {
-                    var status = true;
+                    bool success = true;
                     string message = "Employee Data found ";
-                    return this.Ok(new { status, message, Data = response });
+                    return this.Ok(new { success, message, Data = response });
                 }
                 else                                         
                 {
-                    var status = false;
+                    bool success = false;
                     string message = "Employee Data is Not found";
-                    return this.BadRequest(new { status, message, Data = response });
+                    return this.BadRequest(new { success, message, Data = response });
                 }
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                bool success = false;
+                return this.BadRequest(new { success, message = e.Message });
             }
         }
 
@@ -73,29 +75,30 @@ namespace EmployeeRegistration.Controllers
         /// <param name="id">for specific Employee</param>
         /// <returns>return specific Employee Details</returns>
         [HttpGet("{id}")]
-        public ActionResult GetSpecificEmployeeDetails([FromRoute] int id)
+        public ActionResult GetEmployeeById([FromRoute] int id)
         {
             try
             {
-                var response = this.businessLayer.GetSpecificEmployeeDetails(id);
+                var response = this.businessLayer.GetEmployeeById(id);
 
                 // if result is not equal to zero then details found
                 if (!response.Equals(null))
                 {
-                    var status = true;
+                    bool success = true;
                     string message = "Employee Data found ";
-                    return this.Ok(new { status, message, Data = response });
+                    return this.Ok(new { success, message, Data = response });
                 }
                 else
                 {
-                    var status = false;
+                    bool success = false;
                     string message = "Employee Data is Not found";
-                    return this.BadRequest(new { status, message, Data = response });
+                    return this.BadRequest(new { success, message, Data = response });
                 }
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                bool success = false;
+                return this.BadRequest(new { success, message = e.Message });
             }
         }
 
@@ -105,6 +108,7 @@ namespace EmployeeRegistration.Controllers
         /// <param name="info"> stores the Complete Employee information</param>
         /// <returns>return extra employee details</returns>       
         [HttpPost]
+        [Route("")]
         public async Task<IActionResult> AddEmployeeDetails([FromBody] Employees info)
         {
             try
@@ -114,20 +118,21 @@ namespace EmployeeRegistration.Controllers
                 // if data is not equal to null then Registration sucessful
                 if (!response.Equals(null))
                 {
-                    var status = true;
+                    bool success = true;
                     string message = "Added Successfuly";
-                    return this.Ok(new { status, message, data = info });
+                    return this.Ok(new { success, message, data = info });
                 }
                 else
                 {
-                    var status = false;
+                    bool success = false;
                     string message = "Adding is Failed";
-                    return this.BadRequest(new { status, message, data = info });
+                    return this.BadRequest(new { success, message, data = info });
                 }
             }
             catch (Exception e)
             {
-                return this.BadRequest(new { error = e.Message });
+                bool success = false;
+                return this.BadRequest(new { success, message = e.Message });
             }
         }
 
@@ -145,20 +150,21 @@ namespace EmployeeRegistration.Controllers
                 var response = this.businessLayer.UpdateEmployeeDetails(id, info);
                 if (!response.Equals(null))
                 {
-                    var status = true;
+                    bool success = true;
                     string message = "Employee Data Updated Sucessfully";
-                    return this.Ok(new { status, message, data = info });
+                    return this.Ok(new { success, message, data = info });
                 }
                 else
                 {
-                    var status = false;
+                    bool success = false;
                     string message = "Employee Data not Updated";
-                    return this.BadRequest(new { status, message, data = info });
+                    return this.BadRequest(new { success, message, data = info });
                 }
             }
             catch (Exception e)
             {
-                return this.BadRequest(new { error = e.Message });
+                bool success = false;
+                return this.BadRequest(new { success, message = e.Message });
             }
         }
 
@@ -175,20 +181,21 @@ namespace EmployeeRegistration.Controllers
                 var response = this.businessLayer.DeleteEmployeeDetails(id);
                 if (!response.Equals(null))
                 {
-                    var status = true;
+                    bool success = true;
                     string message = "Employee Data Sucessfully Deleted";
-                    return this.Ok(new { status, message });
+                    return this.Ok(new { success, message });
                 }
                 else
                 {
-                    var status = false;
+                    bool success = false;
                     string message = "Employee Data Not Deleted";
-                    return this.BadRequest(new { status, message });
+                    return this.BadRequest(new { success, message });
                 }
             }
             catch (Exception e)
             {
-                return this.BadRequest(new { error = e.Message });
+                bool success = false;
+                return this.BadRequest(new { success, message = e.Message });
             }
         }
     }
