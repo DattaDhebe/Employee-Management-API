@@ -30,6 +30,7 @@ namespace EmployeeRegistration.Controllers
         /// instance of user interface
         /// </summary>
         private IUserBL businessLayer;
+        private IUserBL userBL;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController" /> class.
@@ -40,6 +41,11 @@ namespace EmployeeRegistration.Controllers
         {
             this.businessLayer = businessDependencyInjection;
             this.config = config;
+        }
+
+        public UserController(IUserBL userBL)
+        {
+            this.userBL = userBL;
         }
 
         /// <summary>

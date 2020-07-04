@@ -112,7 +112,14 @@ namespace EmployeeManagementTest
         {
             // Arrange  
             var testdata = new Employees
-            { FirstName = "Lalit", LastName = "Talole", Email = "lalittalole@gmail.com", ContactNumber = "8149277030", City = "Nagpur", Salary = "23000" };
+                                        {
+                                            FirstName = "Lalit",
+                                            LastName = "Talole",
+                                            Email = "lalittalole@gmail.com",
+                                            ContactNumber = "8149277030",
+                                            City = "Nagpur",
+                                            Salary = "23000"
+                                        };
 
             // Act  
             var data = this.employeeController.AddEmployeeDetails(testdata);
@@ -129,7 +136,14 @@ namespace EmployeeManagementTest
         {
             // Arrange  
             var testdata = new Employees
-            { FirstName = "Lalit", LastName = "Talole", Email = "lalittalole@gmail.com", ContactNumber = "8149277030", City = "Nagpur", Salary = "23000" };
+                                        { 
+                                            FirstName = "Lalit", 
+                                            LastName = "Talole", 
+                                            Email = "lalittalole@gmail.com",
+                                            ContactNumber = "8149277030",
+                                            City = "Nagpur",
+                                            Salary = "23000" 
+                                        };
 
             // Act  
             var data = this.employeeController.AddEmployeeDetails(testdata);
