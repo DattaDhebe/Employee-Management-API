@@ -19,4 +19,11 @@
     <ProjectReference Include="..\EmployeeRegistration\EmployeeRegistration.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="EmployeeManagementTesting.cs">
+      <ExcludeFromSourceAnalysis>False</ExcludeFromSourceAnalysis>
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+  </ItemGroup>
+
 </Project>

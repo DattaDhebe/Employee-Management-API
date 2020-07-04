@@ -37,11 +37,11 @@ namespace BusinessLayer
         /// Method for returning All Employee Details
         /// </summary>
         /// <returns>return all employee details</returns>
-        public IEnumerable<Employees> GetAllemployee()
+        public IEnumerable<Employees> GetAllEmployees()
         {
             try
             {
-                return this.employeeRepository.GetAllemployee();
+                return this.employeeRepository.GetAllEmployees();
             }
             catch (Exception e)
             {
@@ -106,11 +106,11 @@ namespace BusinessLayer
         /// </summary>
         /// <param name="id">for specifying employee</param>
         /// <returns>return deleted record</returns>
-        public int DeleteEmployeeDetails(int id)
+        public int DeleteEmployeeById(int id)
         {
             try
             {
-                return this.employeeRepository.DeleteEmployeeDetails(id);
+                return this.employeeRepository.DeleteEmployeeById(id);
             }
             catch (Exception e)
             {

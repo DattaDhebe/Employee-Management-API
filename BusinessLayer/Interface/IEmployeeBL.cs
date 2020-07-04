@@ -20,7 +20,7 @@ namespace BusinessLayer.Interface
         /// Method for returning All Employee Details
         /// </summary>
         /// <returns>return all employee details</returns>
-        IEnumerable<Employees> GetAllemployee();
+        IEnumerable<Employees> GetAllEmployees();
 
         /// <summary>
         /// Method for returning specific Employee Details
@@ -49,6 +49,6 @@ namespace BusinessLayer.Interface
         /// </summary>
         /// <param name="id">for specifying employee</param>
         /// <returns>return deleted record</returns>
-        int DeleteEmployeeDetails(int id);
+        int DeleteEmployeeById(int id);
     }
 }

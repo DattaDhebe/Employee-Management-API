@@ -40,7 +40,7 @@ namespace RepositoryLayer
         /// Method for returning All Employee Details
         /// </summary>
         /// <returns>return all employee details</returns>
-        public IEnumerable<Employees> GetAllemployee()
+        public IEnumerable<Employees> GetAllEmployees()
         {
             try
             {
@@ -126,31 +126,16 @@ namespace RepositoryLayer
             try
             {
                 Employees employee = new Employees();
+
                 // for store procedure and connection to database
                 SqlCommand command = this.StoreProcedureConnection("sp_AddNewEmployee", this.connection);
-                return LoadDataToStoreProcedure(info, employee, command);
-
+                return this.LoadDataToStoreProcedure(info, command);
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
         }
-
-        private Employees LoadDataToStoreProcedure(Employees info, Employees employee, SqlCommand command)
-        {
-            command.Parameters.AddWithValue("@FirstName", info.FirstName);
-            command.Parameters.AddWithValue("@LastName", info.LastName);
-            command.Parameters.AddWithValue("@Email", info.Email);
-            command.Parameters.AddWithValue("@ContactNumber", info.ContactNumber);
-            command.Parameters.AddWithValue("@City", info.City);
-            command.Parameters.AddWithValue("@Salary", info.Salary);
-            command.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
-            this.connection.Open();
-            SqlDataReader response = command.ExecuteReader();
-            return ResponseEmployeeData(employee, response);
-        }
-
 
         /// <summary>
         /// Method for updating previous employee details
@@ -163,19 +148,11 @@ namespace RepositoryLayer
             try
             {
                 Employees employee = new Employees();
+
                 // for store procedure and connection to database 
                 SqlCommand command = this.StoreProcedureConnection("sp_UpdateEmployeeDetails", this.connection);
                 command.Parameters.Add("@Id", SqlDbType.Int).Value = id;
-                command.Parameters.AddWithValue("@FirstName", info.FirstName);
-                command.Parameters.AddWithValue("@LastName", info.LastName);
-                command.Parameters.AddWithValue("@Email", info.Email);
-                command.Parameters.AddWithValue("@ContactNumber", info.ContactNumber);
-                command.Parameters.AddWithValue("@City", info.City);
-                command.Parameters.AddWithValue("@Salary", info.Salary);
-                command.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
-                this.connection.Open();
-                SqlDataReader response = command.ExecuteReader();
-                return ResponseEmployeeData(employee, response);
+                return this.LoadDataToStoreProcedure(info, command);
             }
             catch (Exception e)
             {
@@ -188,7 +165,7 @@ namespace RepositoryLayer
         /// </summary>
         /// <param name="id">for specifying employee</param>
         /// <returns>return deleted record</returns>
-        public int DeleteEmployeeDetails(int id)
+        public int DeleteEmployeeById(int id)
         {
             try
             {
@@ -202,10 +179,8 @@ namespace RepositoryLayer
                 {
                     return 1;
                 }
-                else
-                {
-                    return 0;
-                }
+
+                return 0;
             }
             catch (Exception e)
             {
@@ -213,6 +188,32 @@ namespace RepositoryLayer
             }
         }
 
+        /// <summary>
+        /// Method to load data to store procedure
+        /// </summary>
+        /// <param name="info">object of Employee class</param>
+        /// <param name="command">connection with database to add and perform</param>
+        /// <returns>returns loaded data in response</returns>
+        private Employees LoadDataToStoreProcedure(Employees info, SqlCommand command)
+        {
+            command.Parameters.AddWithValue("@FirstName", info.FirstName);
+            command.Parameters.AddWithValue("@LastName", info.LastName);
+            command.Parameters.AddWithValue("@Email", info.Email);
+            command.Parameters.AddWithValue("@ContactNumber", info.ContactNumber);
+            command.Parameters.AddWithValue("@City", info.City);
+            command.Parameters.AddWithValue("@Salary", info.Salary);
+            command.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
+            this.connection.Open();
+            SqlDataReader response = command.ExecuteReader();
+            return this.ResponseEmployeeData(info, response);
+        }
+
+        /// <summary>
+        /// Method to provide response with Employee Details
+        /// </summary>
+        /// <param name="employee">employee object</param>
+        /// <param name="response">contains data from store procedure</param>
+        /// <returns>return object with data</returns>
         private Employees ResponseEmployeeData(Employees employee, SqlDataReader response)
         {
             if (response.HasRows)
@@ -229,18 +230,19 @@ namespace RepositoryLayer
                     employee.CreatedDate = response["CreatedDate"].ToString();
                     employee.ModifiedDate = response["ModifiedDate"].ToString();
                 }
+
                 this.connection.Close();
                 return employee;
             }
+
             return null;
         }
-
 
         /// <summary>
         /// configuration with database
         /// </summary>
         /// <returns>return builder</returns>
-        public IConfigurationRoot GetConfiguration()
+        private IConfigurationRoot GetConfiguration()
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             return builder.Build();
@@ -252,7 +254,7 @@ namespace RepositoryLayer
         /// <param name="procedureName">for store procedure</param>
         /// <param name="connection">for connection</param>
         /// <returns>returns store procedure result</returns>
-        public SqlCommand StoreProcedureConnection(string procedureName, SqlConnection connection)
+        private SqlCommand StoreProcedureConnection(string procedureName, SqlConnection connection)
         {
             using (SqlCommand command = new SqlCommand(procedureName, connection))
             {

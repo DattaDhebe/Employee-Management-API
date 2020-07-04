@@ -60,7 +60,7 @@ namespace RepositoryLayer
                 // for query data read
                 this.connection.Open();
                 SqlDataReader response = command.ExecuteReader();
-                return ResponseUserData(userDetails, response);
+                return this.ResponseUserData(userDetails, response);
             }
             catch (Exception e)
             {
@@ -87,8 +87,7 @@ namespace RepositoryLayer
                 // for qeuary data read
                 this.connection.Open();
                 SqlDataReader response = command.ExecuteReader();
-                return ResponseUserData(userDetails, response);
-
+                return this.ResponseUserData(userDetails, response);
             }
             catch (Exception e)
             {
@@ -96,6 +95,12 @@ namespace RepositoryLayer
             }
         }
 
+        /// <summary>
+        /// Method to return Response 
+        /// </summary>
+        /// <param name="userDetails">contains user details</param>
+        /// <param name="response">to provide data from store procedure</param>
+        /// <returns>return response by adding data to object and return object</returns>
         private UserDetails ResponseUserData(UserDetails userDetails, SqlDataReader response)
         {
             if (response.HasRows)
@@ -111,35 +116,37 @@ namespace RepositoryLayer
                     userDetails.City = response["City"].ToString();
                     userDetails.CreatedDate = response["CreatedDate"].ToString();
                 }
+
                 this.connection.Close();
                 return userDetails;
             }
+
             return null;
         }
-
-        /// <summary>
-        /// configuration with database
-        /// </summary>
-        /// <returns>return builder</returns>
-        public IConfigurationRoot GetConfiguration()
-        {
-            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            return builder.Build();
-        }
-
+       
         /// <summary>
         /// Method for store procedure and connection
         /// </summary>
         /// <param name="procedurename">for store procedure</param>
         /// <param name="connection">for connection</param>
         /// <returns>returns store procedure result</returns>
-        public SqlCommand StoreProcedureConnection(string procedurename, SqlConnection connection)
+        private SqlCommand StoreProcedureConnection(string procedurename, SqlConnection connection)
         {
             using (SqlCommand command = new SqlCommand(procedurename, connection))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 return command;
             }
+        }
+
+        /// <summary>
+        /// configuration with database
+        /// </summary>
+        /// <returns>return builder</returns>
+        private IConfigurationRoot GetConfiguration()
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            return builder.Build();
         }
     }
 }

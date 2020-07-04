@@ -42,11 +42,11 @@ namespace EmployeeRegistration.Controllers
         /// <returns>return all employee details</returns>
         [HttpGet]
         [Route("")]
-        public ActionResult<IEnumerable<Employees>> GetAllemployee()
+        public ActionResult<IEnumerable<Employees>> GetAllEmployees()
         {
             try
             {
-                var response = this.businessLayer.GetAllemployee();
+                var response = this.businessLayer.GetAllEmployees();
 
                 // if result is not equal to zero then details found
                 if (!response.Equals(null))
@@ -174,22 +174,22 @@ namespace EmployeeRegistration.Controllers
         /// <param name="id">for specifying employee</param>
         /// <returns>return deleted record</returns>
         [HttpDelete("{id}")]
-        public ActionResult DeleteEmployeeDetails([FromRoute] int id)
+        public ActionResult DeleteEmployeeById([FromRoute] int id)
         {
             try
             {
-                var response = this.businessLayer.DeleteEmployeeDetails(id);
-                if (!response.Equals(null))
+                var response = this.businessLayer.DeleteEmployeeById(id);
+                if (!response.Equals(0))
                 {
                     bool success = true;
                     string message = "Employee Data Sucessfully Deleted";
-                    return this.Ok(new { success, message });
+                    return this.Ok(new { success, message, data = response });
                 }
                 else
                 {
                     bool success = false;
                     string message = "Employee Data Not Deleted";
-                    return this.BadRequest(new { success, message });
+                    return this.BadRequest(new { success, message, data = response });
                 }
             }
             catch (Exception e)
