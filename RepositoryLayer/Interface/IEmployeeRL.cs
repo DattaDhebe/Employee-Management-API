@@ -34,7 +34,7 @@ namespace RepositoryLayer.Interface
         /// </summary>
         /// <param name="info"> stores the Complete Employee information</param>
         /// <returns>return extra employee details</returns>       
-        Task<bool> AddEmployeeDetails(Employees info);
+        Employees AddEmployeeDetails(Employees info);
 
         /// <summary>
         /// Method for updating previous employee details
@@ -42,7 +42,7 @@ namespace RepositoryLayer.Interface
         /// <param name="id">for specifying employee</param>
         /// <param name="info">for getting updatable details</param>
         /// <returns>returns updated details</returns>
-        int UpdateEmployeeDetails(int id, Employees info);
+        Employees UpdateEmployeeDetails(int id, Employees info);
 
         /// <summary>
         /// Method for Deleting specific Employee Details 

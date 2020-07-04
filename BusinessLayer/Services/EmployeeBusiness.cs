@@ -71,11 +71,11 @@ namespace BusinessLayer
         /// </summary>
         /// <param name="info"> stores the Complete Employee information</param>
         /// <returns>return extra employee details</returns> 
-        public async Task<bool> AddEmployeeDetails(Employees info)
+        public Employees AddEmployeeDetails(Employees info)
         {
             try
             {
-                return await this.employeeRepository.AddEmployeeDetails(info);
+                return this.employeeRepository.AddEmployeeDetails(info);
             }
             catch (Exception e)
             {
@@ -89,7 +89,7 @@ namespace BusinessLayer
         /// <param name="id">for specifying employee</param>
         /// <param name="info">for getting updatable details</param>
         /// <returns>returns updated details</returns>
-        public int UpdateEmployeeDetails(int id, Employees info)
+        public Employees UpdateEmployeeDetails(int id, Employees info)
         {
             try
             {

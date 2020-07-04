@@ -109,24 +109,24 @@ namespace EmployeeRegistration.Controllers
         /// <returns>return extra employee details</returns>       
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> AddEmployeeDetails([FromBody] Employees info)
+        public IActionResult AddEmployeeDetails([FromBody] Employees info)
         {
             try
             {
-                var response = await this.businessLayer.AddEmployeeDetails(info);
+                var response = this.businessLayer.AddEmployeeDetails(info);
 
                 // if data is not equal to null then Registration sucessful
                 if (!response.Equals(null))
                 {
                     bool success = true;
                     string message = "Added Successfuly";
-                    return this.Ok(new { success, message, data = info });
+                    return this.Ok(new { success, message, data = response });
                 }
                 else
                 {
                     bool success = false;
                     string message = "Adding is Failed";
-                    return this.BadRequest(new { success, message, data = info });
+                    return this.BadRequest(new { success, message, data = response });
                 }
             }
             catch (Exception e)
@@ -143,7 +143,7 @@ namespace EmployeeRegistration.Controllers
         /// <param name="info">collecting specific employee details</param>
         /// <returns>return specific Employee details updated</returns>
         [HttpPut("{id}")]
-        public ActionResult UpdateEmployeeDetails([FromRoute] int id, [FromBody] Employees info)
+        public IActionResult UpdateEmployeeDetails([FromRoute] int id, [FromBody] Employees info)
         {
             try
             {
@@ -152,13 +152,13 @@ namespace EmployeeRegistration.Controllers
                 {
                     bool success = true;
                     string message = "Employee Data Updated Sucessfully";
-                    return this.Ok(new { success, message, data = info });
+                    return this.Ok(new { success, message, data = response });
                 }
                 else
                 {
                     bool success = false;
                     string message = "Employee Data not Updated";
-                    return this.BadRequest(new { success, message, data = info });
+                    return this.BadRequest(new { success, message, data = response });
                 }
             }
             catch (Exception e)

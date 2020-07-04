@@ -96,7 +96,7 @@ namespace RepositoryLayer
                 SqlDataReader response = command.ExecuteReader();
                 while (response.Read())
                 {
-                    employee.Id = Convert.ToInt32(response["ID"]);
+                    employee.Id = Convert.ToInt32(response["Id"]);
                     employee.FirstName = response["FirstName"].ToString();
                     employee.LastName = response["LastName"].ToString();
                     employee.Email = response["Email"].ToString();
@@ -121,30 +121,15 @@ namespace RepositoryLayer
         /// </summary>
         /// <param name="info"> stores the Complete Employee information</param>
         /// <returns>return extra employee details</returns>   
-        public async Task<bool> AddEmployeeDetails(Employees info)
+        public Employees AddEmployeeDetails(Employees info)
         {
             try
-            {            
+            {
+                Employees employee = new Employees();
                 // for store procedure and connection to database
                 SqlCommand command = this.StoreProcedureConnection("sp_AddNewEmployee", this.connection);
-                command.Parameters.AddWithValue("@FirstName", info.FirstName);
-                command.Parameters.AddWithValue("@LastName", info.LastName);
-                command.Parameters.AddWithValue("@Email", info.Email);
-                command.Parameters.AddWithValue("@ContactNumber", info.ContactNumber);
-                command.Parameters.AddWithValue("@City", info.City);
-                command.Parameters.AddWithValue("@Salary", info.Salary);
-                command.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
-                this.connection.Open();
-                int response = await command.ExecuteNonQueryAsync();
-                this.connection.Close();
-                if (response != 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return LoadDataToStoreProcedure(info, employee, command);
+
             }
             catch (Exception e)
             {
@@ -152,16 +137,32 @@ namespace RepositoryLayer
             }
         }
 
+        private Employees LoadDataToStoreProcedure(Employees info, Employees employee, SqlCommand command)
+        {
+            command.Parameters.AddWithValue("@FirstName", info.FirstName);
+            command.Parameters.AddWithValue("@LastName", info.LastName);
+            command.Parameters.AddWithValue("@Email", info.Email);
+            command.Parameters.AddWithValue("@ContactNumber", info.ContactNumber);
+            command.Parameters.AddWithValue("@City", info.City);
+            command.Parameters.AddWithValue("@Salary", info.Salary);
+            command.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
+            this.connection.Open();
+            SqlDataReader response = command.ExecuteReader();
+            return ResponseEmployeeData(employee, response);
+        }
+
+
         /// <summary>
         /// Method for updating previous employee details
         /// </summary>
         /// <param name="id">for specifying employee</param>
         /// <param name="info">for getting updatable details</param>
         /// <returns>returns updated details</returns>
-        public int UpdateEmployeeDetails(int id, Employees info)
+        public Employees UpdateEmployeeDetails(int id, Employees info)
         {
             try
             {
+                Employees employee = new Employees();
                 // for store procedure and connection to database 
                 SqlCommand command = this.StoreProcedureConnection("sp_UpdateEmployeeDetails", this.connection);
                 command.Parameters.Add("@Id", SqlDbType.Int).Value = id;
@@ -173,16 +174,8 @@ namespace RepositoryLayer
                 command.Parameters.AddWithValue("@Salary", info.Salary);
                 command.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
                 this.connection.Open();
-                int response = command.ExecuteNonQuery();
-                this.connection.Close();
-                if (response != 0)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+                SqlDataReader response = command.ExecuteReader();
+                return ResponseEmployeeData(employee, response);
             }
             catch (Exception e)
             {
@@ -219,6 +212,29 @@ namespace RepositoryLayer
                 throw new Exception(e.Message);
             }
         }
+
+        private Employees ResponseEmployeeData(Employees employee, SqlDataReader response)
+        {
+            if (response.HasRows)
+            {
+                while (response.Read())
+                {
+                    employee.Id = Convert.ToInt32(response["Id"]);
+                    employee.FirstName = response["FirstName"].ToString();
+                    employee.LastName = response["LastName"].ToString();
+                    employee.Email = response["Email"].ToString();
+                    employee.ContactNumber = response["ContactNumber"].ToString();
+                    employee.City = response["City"].ToString();
+                    employee.Salary = response["Salary"].ToString();
+                    employee.CreatedDate = response["CreatedDate"].ToString();
+                    employee.ModifiedDate = response["ModifiedDate"].ToString();
+                }
+                this.connection.Close();
+                return employee;
+            }
+            return null;
+        }
+
 
         /// <summary>
         /// configuration with database
