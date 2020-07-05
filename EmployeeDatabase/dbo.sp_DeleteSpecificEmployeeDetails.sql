@@ -1,5 +1,9 @@
-﻿CREATE PROCEDURE [dbo].[sp_DeleteSpecificEmployeeDetails]
+﻿CREATE PROCEDURE sp_DeleteSpecificEmployeeDetails
 	@Id int
 AS
-	DELETE FROM Employee WHERE Id = @Id;
-RETURN 0
+BEGIN
+	SET NOCOUNT ON;
+
+	DELETE FROM EmployeeData WHERE Id = @Id;
+	RETURN
+END

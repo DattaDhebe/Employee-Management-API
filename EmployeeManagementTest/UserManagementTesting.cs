@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="EmployeeManagementTesting.cs" company="BridgeLabz Solution">
+// <copyright file="UserManagementTesting.cs" company="BridgeLabz Solution">
 //  Copyright (c) BridgeLabz Solution. All rights reserved.
 // </copyright>
 // <author>Datta Dhebe</author>
@@ -20,7 +20,7 @@ namespace EmployeeManagementTest
     /// <summary>
     /// Test class for Employee management 
     /// </summary>
-    public class userManagementTesting
+    public class UserManagementTesting
     {
         /// <summary>
         /// object of EmployeeController to access method
@@ -40,7 +40,7 @@ namespace EmployeeManagementTest
         /// <summary>
         /// Initializes a new instance of the <see cref="userManagementTesting" /> class.
         /// </summary>
-        public userManagementTesting()
+        public UserManagementTesting()
         {
             this.userRL = new UserRepository();
             this.userBL = new UserBusiness(this.userRL);
@@ -58,9 +58,9 @@ namespace EmployeeManagementTest
                                         {
                                             FirstName = "Lalit",
                                             LastName = "Talole",
-                                            Email = "lalalal@gmail.com",
-                                            Username = "lalalal",
-                                            Password = "123456789",
+                                            Email = "laxmi@gmail.com",
+                                            Username = "laxmi",
+                                            Password = "12345678",
                                             City = "Nagpur",
                                             Gender = "Male"
                                         };
@@ -81,9 +81,9 @@ namespace EmployeeManagementTest
             // Arrange  
             var userData = new Login
                                     {
-                                        Username = "lalalal",
-                                        Password = "123456789"
-                                    };
+                                        Username = "Asam",
+                                        Password = "1234567812"
+            };
 
             // Act  
             var data = this.userController.UserLogin(userData);
@@ -96,7 +96,7 @@ namespace EmployeeManagementTest
         /// Method for Register new User when added userDetails should return ok result 
         /// </summary>
         [Fact]
-        public void Task_WhenGivenWrongUsernameAndPassword_ShouldReturnOkResult()
+        public void Task_WhenGivenWrongUsernameAndPassword_ShouldReturnBadRequestObjectResult()
         {
             // Arrange  
             var userData = new Login

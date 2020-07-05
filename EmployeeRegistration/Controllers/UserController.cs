@@ -22,30 +22,17 @@ namespace EmployeeRegistration.Controllers
     public class UserController : ControllerBase
     {
         /// <summary>
-        /// for configuration
-        /// </summary>
-        private IConfiguration config;
-
-        /// <summary>
         /// instance of user interface
         /// </summary>
         private IUserBL businessLayer;
-        private IUserBL userBL;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController" /> class.
         /// </summary>
         /// <param name="businessDependencyInjection">dependency injection</param>
-        /// <param name="config">for configuration</param>
-        public UserController(IUserBL businessDependencyInjection, IConfiguration config)
+        public UserController(IUserBL businessDependencyInjection)
         {
             this.businessLayer = businessDependencyInjection;
-            this.config = config;
-        }
-
-        public UserController(IUserBL userBL)
-        {
-            this.userBL = userBL;
         }
 
         /// <summary>

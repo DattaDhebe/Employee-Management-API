@@ -1,5 +1,8 @@
 ﻿CREATE PROCEDURE sp_AllEmployees
 AS
-	SELECT * FROM Employee;
-GO
+BEGIN
+	SET NOCOUNT ON; 
 
+	SELECT * FROM EmployeeData;
+	RETURN
+END

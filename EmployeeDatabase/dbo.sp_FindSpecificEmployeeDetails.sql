@@ -1,5 +1,9 @@
 ﻿CREATE PROCEDURE sp_FindSpecificEmployeeDetails
 	@Id int
 AS
-	SELECT * FROM Employee Where Id = @Id;
+BEGIN
+	SET NOCOUNT ON
 
+	SELECT * FROM EmployeeData Where Id = @Id;
+	RETURN
+END

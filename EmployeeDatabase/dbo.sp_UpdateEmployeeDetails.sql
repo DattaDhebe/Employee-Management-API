@@ -6,11 +6,14 @@
 @ContactNumber varchar(50),
 @City varchar(50),
 @Salary varchar(50),
-@JoiningDate varchar(50)
+@ModifiedDate varchar(50)
 AS
 BEGIN
 	SET NOCOUNT ON; 
 
-	UPDATE Employee SET FirstName = @FirstName, LastName = @LastName, Email = @Email, ContactNumber = @ContactNumber, City = @City, Salary = @Salary, JoiningDate = @JoiningDate  WHERE Id = @Id;
+	if exists (SELECT * FROM UserData WHERE Email = @Email)
+		UPDATE EmployeeData SET FirstName = @FirstName, LastName = @LastName, ContactNumber = @ContactNumber, City = @City, Salary = @Salary, ModifiedDate = @ModifiedDate  WHERE Id = @Id;
+	else
+		UPDATE EmployeeData SET FirstName = @FirstName, LastName = @LastName, Email = @Email, ContactNumber = @ContactNumber, City = @City, Salary = @Salary, ModifiedDate = @ModifiedDate  WHERE Id = @Id;
+	select * from EmployeeData where Id = @Id;
 END
-

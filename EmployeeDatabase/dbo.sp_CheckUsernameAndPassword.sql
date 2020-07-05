@@ -5,8 +5,6 @@ AS
 BEGIN
 	SET NOCOUNT ON; 
 	
-	if exists (select * from UserRegistration where Username = @Username AND Password = @Password)
-		select 1
-	else
-		select 0
+	select Id, FirstName, LastName, Email, Username, Gender, City, CreatedDate from UserData where Username = @Username AND Password = @Password;
+	
 END
